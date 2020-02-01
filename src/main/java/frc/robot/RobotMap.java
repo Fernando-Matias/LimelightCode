@@ -34,4 +34,6 @@ public class RobotMap {
   public static final int RightStickPort = 1;
   public static final int GamepadPort = 2;
 
+  public static final int TurrentShooter_ID= 10;
+
 }
