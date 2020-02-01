@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.RobotMap;
+import frc.robot.subsystems.Limelight;
+
 
 
 /**
@@ -20,6 +22,14 @@ import frc.robot.RobotMap;
 public class TurrentShooter extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private Limelight limelight = Limelight.getInstance();
+  public boolean m_LimelightTurnSuccess = false;
+
+  public static final TurrentShooter instance = new TurrentShooter();
+
+  public static TurrentShooter getInstance(){
+    return instance;
+  }
 
   public TalonSRX TurrentShooter;
 
@@ -36,7 +46,20 @@ public class TurrentShooter extends Subsystem {
   }
   
   public void ShootPowerCell() {
-    TurrentShooter.set(ControlMode.PercentOutput, 1.0);
+
+    limelight.UpdateLimelightTraking();
+
+    if (limelight.m_LimelightHasValidTarget = true){
+      limelight.SteeringAdjust();
+      m_LimelightTurnSuccess = true;
+    }
+    else {
+      m_LimelightTurnSuccess = false;
+    }
+
+    if (m_LimelightTurnSuccess = true){
+      TurrentShooter.set(ControlMode.PercentOutput, 1.0);
+    }
   }
   public void StopShootCargo() {
     TurrentShooter.set(ControlMode.PercentOutput, 0.0);

@@ -17,6 +17,7 @@ public class Limelight extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+
   public static final Limelight instance = new Limelight();
 
   public static Limelight getInstance(){
@@ -25,7 +26,7 @@ public class Limelight extends Subsystem {
 
   public boolean m_LimelightHasValidTarget = false;
 
-  public boolean m_LimelightTurnSuccess = false;
+
 
   public double kp = -0.1f;
   public double minCommand = 0.05f; 
@@ -54,7 +55,7 @@ public class Limelight extends Subsystem {
 
     if (tx > 1.0){
       steeringAdjust = kp*heading_error - minCommand;
-      m_LimelightTurnSuccess = true;
+      //m_LimelightTurnSuccess = true;
     }
     else if (tx < 1.0){
       steeringAdjust = kp*heading_error + minCommand;
