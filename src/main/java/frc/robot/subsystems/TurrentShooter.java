@@ -13,6 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.DriveTrain;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 
@@ -33,6 +36,11 @@ public class TurrentShooter extends Subsystem {
 
   public TalonSRX TurrentShooter;
 
+  double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+  double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+  double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+
   public TurrentShooter (){
     TurrentShooter = new TalonSRX(RobotMap.TurrentShooter_ID);
 
@@ -44,22 +52,34 @@ public class TurrentShooter extends Subsystem {
     TurrentShooter.enableCurrentLimit(true);
     TurrentShooter.setInverted(false);    
   }
+  public double kp = -0.1f;
+  public double minCommand = 0.05f; 
+
   
   public void ShootPowerCell() {
 
+    double heading_error = tx;
+    double steeringAdjust = 0.0f;
+
     limelight.UpdateLimelightTraking();
 
-    if (limelight.m_LimelightHasValidTarget = true){
-      limelight.SteeringAdjust();
-      m_LimelightTurnSuccess = true;
-    }
-    else {
-      m_LimelightTurnSuccess = false;
+
+      //limelight.SteeringAdjust();
+    if (tx > 1.0){
+      steeringAdjust = kp*heading_error - minCommand;
+    } 
+    else if (tx < 1.0){
+      steeringAdjust = kp*heading_error + minCommand;
+      
     }
 
-    if (m_LimelightTurnSuccess = true){
-      TurrentShooter.set(ControlMode.PercentOutput, 1.0);
-    }
+
+    
+    TurrentShooter.set(ControlMode.PercentOutput, 1.0);
+    
+    double leftCommand =+ steeringAdjust;
+    double rightCommand =- steeringAdjust;
+    DriveTrain.mDrive.tankDrive(leftCommand, rightCommand);
   }
   public void StopShootCargo() {
     TurrentShooter.set(ControlMode.PercentOutput, 0.0);

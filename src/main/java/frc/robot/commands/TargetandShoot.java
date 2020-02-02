@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TurrentShooter;;
 
@@ -26,6 +27,8 @@ public class TargetandShoot extends Command {
 
 
 
+
+
   public TargetandShoot() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -36,6 +39,7 @@ public class TargetandShoot extends Command {
   @Override
   protected void initialize() {
     shootTimer.start();
+    limelight.SteeringAdjust();
     turrentShooter.ShootPowerCell();
   }
 
@@ -49,7 +53,7 @@ public class TargetandShoot extends Command {
       shootTimer.reset();
       turrentShooter.StopShootCargo();
       doneshooting = true;
-      
+
     }
     else {
       doneshooting = false;

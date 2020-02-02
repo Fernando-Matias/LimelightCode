@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.Input.*;
+import frc.robot.commands.TargetandShoot;
 //import frc.robot.Constants;
 
 /**
@@ -48,8 +49,7 @@ public class OI {
   private static final LogitechController Gamepad = new LogitechController(RobotMap.GamepadPort);
 
   public void RegisterControls() {
-    
-    
+    Gamepad.getButtonA().whenPressed(new TargetandShoot());
   }
 
   //Controls for the Robot (Driving)

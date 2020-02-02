@@ -56,7 +56,7 @@ public class Limelight extends Subsystem {
     if (tx > 1.0){
       steeringAdjust = kp*heading_error - minCommand;
       //m_LimelightTurnSuccess = true;
-    }
+    } 
     else if (tx < 1.0){
       steeringAdjust = kp*heading_error + minCommand;
     }
